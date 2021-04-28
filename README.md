@@ -1,1 +1,2 @@
-# Machine-Learning-Toolbox
+# MLToolbox
+Short for Machine Learning Toolbox.
