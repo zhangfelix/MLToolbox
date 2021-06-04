@@ -1,5 +1,5 @@
 # coding=utf-8
 
 def date_loader(filename):
-    # todo: load data from file.
-    pass
+    # TODO(zhangfelixx@hotmail.com): load data from file.
+    return [None],[None]
