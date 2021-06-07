@@ -88,7 +88,7 @@ class KNN:
         '''
         # get top k nestest points, and set them in the topk.
         new_dis = self.distance(new_point, i)
-        pos = sort.add_to_topk(self.topk['distances'], new_dis)
+        pos = sort.add_to_topk_binary(self.topk['distances'], new_dis)
         if pos is not None:
             self.topk['points'] = self.topk['points'][:pos] + \
                 [i] + self.topk['points'][pos:-1]
