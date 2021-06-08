@@ -1,7 +1,7 @@
+# coding=utf-8
 '''
 knn class.
 '''
-# coding=utf-8
 import numpy as np
 from MLToolbox.tools import data as tdata, distance as dis, sort
 
@@ -37,7 +37,7 @@ class KNN:
 
     vote_methods = {'normal':_normal_vote,
                     'weight':_weight_vote}
-    def __init__(self, vote_method='normal', filename=None, data=(np.ndarray([]),np.ndarray([])), \
+    def __init__(self, vote_method='normal', data=None, \
                  k=1, distance=dis.euler_distance):
         '''
         class init.
@@ -46,10 +46,10 @@ class KNN:
             self.vote_method = 'normal'
         else:
             self.vote_method = vote_method
-        if filename is not None:
-            self.data, self.label  = tdata.date_loader(filename)
+        if data is not None:
+            self.data, self.label  = data[0], data[1]
         else:
-            self.data, self.label = data
+            self.data, self.label = tdata.date_loader('knn')
 
         self.k = k
         self.topk = {'points':[None] * self.k,

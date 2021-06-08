@@ -47,4 +47,16 @@ def add_to_topk_binary(lst, new_num, reverse=False):
             find_position()
         else:
             find_position_reverse()
-    return right
+
+    if reverse is False:
+        if lst[right] is not None and lst[right] <= new_num:
+            return None
+        if lst[left] <= new_num:
+            return right
+        return left
+
+    if lst[right] is not None and lst[right] >= new_num:
+        return None
+    if lst[left] >=new_num:
+        return right
+    return left
