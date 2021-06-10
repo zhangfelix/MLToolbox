@@ -48,6 +48,10 @@ class TestTools:
         assert sort.add_to_topk_binary(lst_5,new_num_5) == 4
         lst_5 = [8,7,6,4,3,2,1,None,None]
         assert sort.add_to_topk_binary(lst_5,new_num_5,True) == 3
+        lst_6 = [None,None,None,None,None,None]
+        new_num_6 = 5
+        assert sort.add_to_topk_binary(lst_6,new_num_6) == 0
+        assert sort.add_to_topk_binary(lst_6,new_num_6,True) == 0
 
     def test_euler_distance(self):
         '''

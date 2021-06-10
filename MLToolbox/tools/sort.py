@@ -51,12 +51,12 @@ def add_to_topk_binary(lst, new_num, reverse=False):
     if reverse is False:
         if lst[right] is not None and lst[right] <= new_num:
             return None
-        if lst[left] <= new_num:
+        if lst[left] is not None and lst[left] <= new_num:
             return right
         return left
 
     if lst[right] is not None and lst[right] >= new_num:
         return None
-    if lst[left] >=new_num:
+    if lst[left] is not None and lst[left] >=new_num:
         return right
     return left
