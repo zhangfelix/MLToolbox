@@ -229,3 +229,9 @@ Thumbs.db
 
 # profiling data
 .prof
+
+# vscode
+.vscode/
+
+# pylint
+.pylintrc
