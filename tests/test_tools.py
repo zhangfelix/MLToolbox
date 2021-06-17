@@ -2,6 +2,7 @@
 tools tests
 '''
 import math
+import pytest
 from MLToolbox.tools import sort, distance, data
 import numpy as np
 
@@ -68,3 +69,50 @@ class TestTools:
         x,y = data.date_loader('knn')
         assert isinstance(x,np.ndarray)
         assert isinstance(y,np.ndarray)
+
+    def test_train_test_split(self):
+        '''
+        Test data.train_test_split.
+        '''
+        # X,y have different size
+        X=[[1,1,1],[2,2,2],[3,3,3]]
+        y=[1,2]
+        with pytest.raises(ValueError, match=r"Features X and labels y should have same length."):
+            data.train_test_split(X,y,train_size=0.8,test_size=0.2)
+
+        # tran_size or test_size < 0
+        X=[[1,1,1],[2,2,2],[3,3,3]]
+        y=[1,2,3]
+        # train_size and test_size are not none
+        with pytest.raises(ValueError, match=r"Train and test size should > 0"):
+            data.train_test_split(X,y,0,0)
+        with pytest.raises(ValueError, match=r"Train and test size should > 0"):
+            data.train_test_split(X,y,-0.2,0)
+        with pytest.raises(ValueError, match=r"Train and test size should > 0"):
+            data.train_test_split(X,y,0,-0.2)
+        with pytest.raises(ValueError, match=r"Train and test size should > 0"):
+            data.train_test_split(X,y,-0.2,-0.2)
+        with pytest.raises(ValueError, match=r"Train and test size should > 0"):
+            data.train_test_split(X,y,0.2,-0.2)
+        with pytest.raises(ValueError, match=r"Train and test size should > 0"):
+            data.train_test_split(X,y,-0.2,0.2)
+
+        # test_size is none.
+        with pytest.raises(ValueError, match=r"Train size should > 0"):
+            data.train_test_split(X,y,-0.2,None)
+        with pytest.raises(ValueError, match=r"Train size should > 0"):
+            data.train_test_split(X,y,0,None)
+        with pytest.raises(ValueError, match=r"Train size should < 1"):
+            data.train_test_split(X,y,1,None)
+        with pytest.raises(ValueError, match=r"Train size should < 1"):
+            data.train_test_split(X,y,1.2,None)
+
+        # train_size is none
+        with pytest.raises(ValueError, match=r"Test size should > 0"):
+            data.train_test_split(X,y,None,-0.2)
+        with pytest.raises(ValueError, match=r"Test size should > 0"):
+            data.train_test_split(X,y,None,0)
+        with pytest.raises(ValueError, match=r"Test size should < 1"):
+            data.train_test_split(X,y,None,1)
+        with pytest.raises(ValueError, match=r"Test size should < 1"):
+            data.train_test_split(X,y,None,1.2)

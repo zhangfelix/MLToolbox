@@ -18,4 +18,5 @@ class TestKMeans:
         kmeans_skl = KMeans_skl(n_clusters=4)
         kmeans_mlt.fit(X)
         kmeans_skl.fit(X)
-        test_points =
+        # test_points =
+        # TODO: complete test kmeans_fit
