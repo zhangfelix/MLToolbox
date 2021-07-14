@@ -5,7 +5,7 @@ KMeans class
 import numpy as np
 from MLToolbox.tools import distance as dis
 
-class KMeans:
+class KMeans: # pylint: disable=too-many-instance-attributes
     '''
     KMeans class
     '''
@@ -66,8 +66,8 @@ class KMeans:
     def _transform(self, X): # pylint: disable=invalid-name
         '''Compute the distances from each sample to centroids.'''
         # transformed_matrix = np.zeros((len(X), self.n_clusters), dtype=float)
-        transformed_matrix = []
-        labels = []
+        # transformed_matrix = []
+        # labels = []
         for x in X: # pylint: disable=invalid-name
             min_dis = float("inf")
             label = None
