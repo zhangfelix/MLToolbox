@@ -22,7 +22,7 @@ class KMeans: # pylint: disable=too-many-instance-attributes
         '''
         Compute kmeans.
         '''
-        self.initialize_centroids(data)
+        self.centroids = self.initialize_centroids(data)
         self.data = data
         self.centroids_iterator()
 
@@ -30,12 +30,13 @@ class KMeans: # pylint: disable=too-many-instance-attributes
         '''Calculate centroids iteratively'''
         iter_counter = 0
         while iter_counter < self.max_iter:
+            self.clusters = [[]] * self.n_clusters
             cluster_counter = np.zeros((self.n_clusters, 1))
-            new_centroids = np.array((self.n_clusters, self.data.shape[1]))
-            for idx, (_, label) in enumerate(self.transform(self.data)):
+            new_centroids = np.zeros((self.n_clusters, self.data.shape[1]))
+            for idx, (_, label) in enumerate(self._transform(self.data)):
                 self.clusters[label].append(idx)
                 cluster_counter[label] += 1
-                new_centroids[label] += self.data[idx]
+                new_centroids[label] = new_centroids[label] + self.data[idx]
             new_centroids = new_centroids/cluster_counter
             tolerances = np.array([dis.euler_distance(x,y) for x,y in \
                                    zip(new_centroids,self.centroids)])
