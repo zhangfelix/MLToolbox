@@ -9,21 +9,23 @@ class KMeans: # pylint: disable=too-many-instance-attributes
     '''
     KMeans class
     '''
-    def __init__(self, n_clusters=8, init = 'ramdon', max_iter = 300, tolerance = 0.0001):
+    def __init__(self, n_clusters=8, init = 'ramdon', seed = None, \
+                 max_iter = 300, tolerance = 0.0001): # pylint: disable=too-many-arguments
         self.n_clusters = n_clusters
-        self.clusters = [[]] * self.n_clusters
+        self.clusters = [[] for _ in range(self.n_clusters)]
         self.init = init
         self.centroids = None
         self.max_iter = max_iter
         self.tolerance = tolerance
         self.isfitted = False
         self.data = []
+        self.seed = seed
     def fit(self, data):
         '''
         Compute kmeans.
         '''
-        self.centroids = self.initialize_centroids(data)
         self.data = data
+        self.centroids = self.initialize_centroids()
         self.centroids_iterator()
 
     def centroids_iterator(self):
@@ -35,8 +37,6 @@ class KMeans: # pylint: disable=too-many-instance-attributes
             new_centroids = np.zeros((self.n_clusters, self.data.shape[1]))
             for idx, (_, label) in enumerate(self._transform(self.data)):
                 self.clusters[label].append(idx)
-                print('label:',label)
-                print('self.clusters:',self.clusters)
                 cluster_counter[label] += 1
                 new_centroids[label] = new_centroids[label] + self.data[idx]
             new_centroids = new_centroids/cluster_counter
@@ -50,11 +50,12 @@ class KMeans: # pylint: disable=too-many-instance-attributes
         '''
         Predict the clusters which new_points belong to.
         '''
+        return np.array([x for _, x in self._transform(new_points)])
 
-    def initialize_centroids(self, data):
+    def initialize_centroids(self):
         '''Initialize centroids.'''
         if self.init == 'ramdon':
-            return self._ramdon_initialize_centroids(data)
+            return self._ramdon_initialize_centroids()
         raise ValueError("init parameter may take values from ['ramdon]")
 
     def transform(self, X): # pylint: disable=invalid-name
@@ -87,7 +88,7 @@ class KMeans: # pylint: disable=too-many-instance-attributes
         # return np.array(transformed_matrix), np.array(labels)
 
 
-    def _ramdon_initialize_centroids(self, data):
-        '''Initialize centroids at ramdon from data.'''
-        rng = np.random.default_rng()
-        return rng.choice(data, self.n_clusters, replace=False)
+    def _ramdon_initialize_centroids(self):
+        '''Initialize centroids at ramdon from self.data.'''
+        rng = np.random.default_rng(self.seed)
+        return rng.choice(self.data, self.n_clusters, replace=False)
