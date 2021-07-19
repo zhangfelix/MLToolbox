@@ -1,14 +1,14 @@
 # coding=utf-8
-'''
+"""
 KMeans class
-'''
+"""
 import numpy as np
 from MLToolbox.tools import distance as dis
 
 class KMeans: # pylint: disable=too-many-instance-attributes
-    '''
+    """
     KMeans class
-    '''
+    """
     def __init__(self, n_clusters=8, init = 'ramdon', seed = None, \
                  max_iter = 300, tolerance = 0.0001): # pylint: disable=too-many-arguments
         self.n_clusters = n_clusters
@@ -21,15 +21,15 @@ class KMeans: # pylint: disable=too-many-instance-attributes
         self.data = []
         self.seed = seed
     def fit(self, data):
-        '''
+        """
         Compute kmeans.
-        '''
+        """
         self.data = data
         self.centroids = self.initialize_centroids()
         self.centroids_iterator()
 
     def centroids_iterator(self):
-        '''Calculate centroids iteratively'''
+        """Calculate centroids iteratively"""
         iter_counter = 0
         while iter_counter < self.max_iter:
             self.clusters = [[] for _ in range(self.n_clusters)]
@@ -47,19 +47,19 @@ class KMeans: # pylint: disable=too-many-instance-attributes
                 break
 
     def predict(self, new_points):
-        '''
+        """
         Predict the clusters which new_points belong to.
-        '''
+        """
         return np.array([x for _, x in self._transform(new_points)])
 
     def initialize_centroids(self):
-        '''Initialize centroids.'''
+        """Initialize centroids."""
         if self.init == 'ramdon':
             return self._ramdon_initialize_centroids()
         raise ValueError("init parameter may take values from ['ramdon]")
 
     def transform(self, X): # pylint: disable=invalid-name
-        '''Transform X to the distances matrix.'''
+        """Transform X to the distances matrix."""
         transformed_matrix = []
         for transformed_matrix_row, _ in self._transform(X):
             transformed_matrix.append(transformed_matrix_row)
@@ -68,7 +68,7 @@ class KMeans: # pylint: disable=too-many-instance-attributes
         # return transformed_matrix
 
     def _transform(self, X): # pylint: disable=invalid-name
-        '''Compute the distances from each sample to centroids.'''
+        """Compute the distances from each sample to centroids."""
         # transformed_matrix = np.zeros((len(X), self.n_clusters), dtype=float)
         # transformed_matrix = []
         # labels = []
@@ -89,6 +89,6 @@ class KMeans: # pylint: disable=too-many-instance-attributes
 
 
     def _ramdon_initialize_centroids(self):
-        '''Initialize centroids at ramdon from self.data.'''
+        """Initialize centroids at ramdon from self.data."""
         rng = np.random.default_rng(self.seed)
         return rng.choice(self.data, self.n_clusters, replace=False)

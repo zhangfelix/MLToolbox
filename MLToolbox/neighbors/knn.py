@@ -1,14 +1,14 @@
 # coding=utf-8
-'''
+"""
 knn class.
-'''
+"""
 import numpy as np
 from MLToolbox.tools import data as tdata, distance as dis, sort
 
 class KNN:
-    '''
+    """
     knn class
-    '''
+    """
     def _normal_vote(self, idx):
         keys = {}
         most = 0
@@ -39,9 +39,9 @@ class KNN:
                     'weight':_weight_vote}
     def __init__(self, vote_method='normal', data=None, \
                  k=1, distance=dis.euler_distance):
-        '''
+        """
         class init.
-        '''
+        """
         if vote_method not in self.vote_methods:
             self.vote_method = 'normal'
         else:
@@ -56,9 +56,9 @@ class KNN:
         self.distance = distance
 
     def calculate(self, new_points):
-        '''
+        """
         calculate which label new points belong to.
-        '''
+        """
         new_labels = np.array([None] * len(new_points))
         self.topk['points'] = [[None]*self.k]*len(new_points)
         self.topk['distances'] = [[None]*self.k]*len(new_points)
@@ -76,24 +76,24 @@ class KNN:
         return new_labels
 
     def k_nestest(self, idx, new_point):
-        '''
+        """
         find the k nestest points to the new point.
-        '''
+        """
         # calculate distance with different methods.
         for ind,(i,j) in enumerate(zip(self.data, self.label)):
             self._top_k(idx, new_point, ind, i, j)
 
     def vote(self, idx):
-        '''
+        """
         vote which label the point belong to.
-        '''
+        """
         # TODO(zhangfelixx@hotmail.com): vote which class the new point belong to.
         return self.vote_methods[self.vote_method](self, idx)
 
     def _top_k(self, idx, new_point, ind, i, j):
-        '''
+        """
         get top k nestest points.
-        '''
+        """
         # get top k nestest points, and set them in the topk.
         new_dis = self.distance(new_point, i)
         pos = sort.add_to_topk_binary(self.topk['distances'][idx], new_dis)
