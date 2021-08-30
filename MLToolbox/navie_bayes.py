@@ -11,7 +11,7 @@ class GaussianNB:
         self.var_smoothing = var_smoothing
         self.class_priors = None
         self.class_counts = None
-        self.classes = None
+        self.classes_map = { }
         self.means = None
         self.varances = None
     def fit(self, X, y):
@@ -23,7 +23,9 @@ class GaussianNB:
         pass
     def calculate_class_priors(self, y):
         class_counter = Counter(y)
-        for lable, nums in class_counter:
+        self.class_counts = 0
+        for lable, nums in class_counter.items():
+            self.classes_map[lable] = self.class_counts
             pass
 
         pass
